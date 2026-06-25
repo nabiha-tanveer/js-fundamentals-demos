@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do App by  Nabiha Tanveer</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f0f4ff;
+    }
+
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    }
+    .navbar .brand { font-size: 1rem; font-weight: 700; color: #7c3aed; }
+    .navbar .brand span { color: #94a3b8; font-weight: 400; font-size: 0.85rem; margin-left: 10px; }
+    .navbar .badge { background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; border-radius: 99px; padding: 4px 14px; font-size: 0.75rem; font-weight: 600; }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .container { width: 100%; max-width: 520px; }
+
+    header { text-align: center; margin-bottom: 28px; }
+    header h1 { color: #1e293b; font-size: 1.8rem; font-weight: 700; }
+    header p  { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; }
+
+    .stats { display: flex; justify-content: center; gap: 24px; margin-bottom: 24px; }
+    .stat  { text-align: center; }
+    .stat-num   { font-size: 1.6rem; font-weight: 700; color: #7c3aed; }
+    .stat-label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+
+    .input-row { display: flex; gap: 10px; margin-bottom: 16px; }
+    #task-input {
+      flex: 1; padding: 13px 18px;
+      border-radius: 14px; border: 1.5px solid #e2e8f0;
+      background: #fff; color: #1e293b; font-size: 0.95rem; outline: none;
+      transition: border-color 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    #task-input::placeholder { color: #cbd5e1; }
+    #task-input:focus { border-color: #7c3aed; }
+
+    #add-btn {
+      padding: 13px 22px; background: #7c3aed; color: #fff;
+      border: none; border-radius: 14px; font-size: 1.2rem; cursor: pointer;
+      transition: background 0.2s, transform 0.1s; box-shadow: 0 2px 8px rgba(124,58,237,0.25);
+    }
+    #add-btn:hover  { background: #6d28d9; }
+    #add-btn:active { transform: scale(0.95); }
+
+    .filters { display: flex; gap: 8px; margin-bottom: 16px; }
+    .filter-btn {
+      flex: 1; padding: 8px; border: 1.5px solid #e2e8f0;
+      background: #fff; color: #94a3b8; border-radius: 10px;
+      cursor: pointer; font-size: 0.8rem; transition: all 0.2s;
+    }
+    .filter-btn.active { background: #f5f3ff; color: #7c3aed; border-color: #ddd6fe; font-weight: 600; }
+
+    #task-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+    .task-item {
+      display: flex; align-items: center; gap: 12px;
+      background: #fff; border: 1.5px solid #e2e8f0;
+      border-radius: 14px; padding: 14px 16px;
+      animation: slideIn 0.25s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .task-item.done { opacity: 0.5; }
+
+    @keyframes slideIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+    .check-btn {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 2px solid #ddd6fe; background: transparent;
+      cursor: pointer; flex-shrink: 0;
+      display: flex; align-items:center; justify-content:center;
+      transition: all 0.2s;
+    }
+    .check-btn:hover { border-color: #7c3aed; background: #f5f3ff; }
+    .task-item.done .check-btn { background: #7c3aed; border-color: #7c3aed; }
+    .check-btn::after { content:''; display:none; width:5px; height:9px; border:2px solid #fff; border-top:none; border-left:none; transform:rotate(45deg) translate(-1px,-1px); }
+    .task-item.done .check-btn::after { display:block; }
+
+    .task-text { flex:1; color: #1e293b; font-size: 0.95rem; }
+    .task-item.done .task-text { text-decoration: line-through; color: #cbd5e1; }
+
+    .del-btn { background:transparent; border:none; color:#cbd5e1; cursor:pointer; font-size:1.1rem; padding:4px 6px; border-radius:8px; transition: color 0.2s, background 0.2s; }
+    .del-btn:hover { color:#dc2626; background:#fff1f2; }
+
+    #empty-state { text-align:center; padding:50px 20px; color:#cbd5e1; }
+    #empty-state .emoji { font-size:3rem; margin-bottom:12px; }
+
+    #clear-btn {
+      display:block; width:100%; margin-top:16px; padding:10px;
+      background:#fff; border:1.5px solid #fecdd3; color:#f87171;
+      border-radius:12px; cursor:pointer; font-size:0.8rem; transition:all 0.2s;
+    }
+    #clear-btn:hover { background:#fff1f2; border-color:#f87171; color:#dc2626; }
+
+    footer { text-align:center; padding:16px; color:#cbd5e1; font-size:0.75rem; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="brand">Nabiha Tanveer <span>JS Fundamentals</span></div>
+    <div class="badge">To-Do App</div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <header>
+        <h1>📝 My Tasks</h1>
+        <p>Stay organized, stay productive</p>
+      </header>
+
+      <div class="stats">
+        <div class="stat"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total</div></div>
+        <div class="stat"><div class="stat-num" id="stat-done">0</div><div class="stat-label">Done</div></div>
+        <div class="stat"><div class="stat-num" id="stat-left">0</div><div class="stat-label">Left</div></div>
+      </div>
+
+      <div class="input-row">
+        <input id="task-input" type="text" placeholder="Add a new task..." maxlength="100"/>
+        <button id="add-btn">＋</button>
+      </div>
+
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="active">Active</button>
+        <button class="filter-btn" data-filter="done">Completed</button>
+      </div>
+
+      <ul id="task-list"></ul>
+      <div id="empty-state"><div class="emoji">✨</div><p>No tasks yet. Add one above!</p></div>
+      <button id="clear-btn">Clear completed tasks</button>
+    </div>
+  </main>
+
+  <footer>Nabiha Tanveer </footer>
+
+<script>
+  var tasks = [];
+  var currentFilter = 'all';
+
+  addDefaultTasks();
+  function addDefaultTasks() {
+    tasks = [
+      { id: Date.now(),   text: 'Watch JS tutorial videos', done: true  },
+      { id: Date.now()+1, text: 'Build counter demo',       done: true  },
+      { id: Date.now()+2, text: 'Build to-do demo',         done: false },
+      { id: Date.now()+3, text: 'Build quiz demo',          done: false },
+    ];
+  }
+
+  const taskIdGenerator = (function() {
+    let _id = Date.now() + 100;
+    return { next() { return ++_id; } };
+  })();
+
+  const taskList   = document.getElementById('task-list');
+  const emptyState = document.getElementById('empty-state');
+  const taskInput  = document.getElementById('task-input');
+
+  function render() {
+    const filtered = tasks.filter(t => {
+      if (currentFilter === 'active') return !t.done;
+      if (currentFilter === 'done')   return  t.done;
+      return true;
+    });
+
+    taskList.innerHTML = '';
+    emptyState.style.display = filtered.length ? 'none' : 'block';
+
+    filtered.forEach(task => {
+      const li = document.createElement('li');
+      li.className = 'task-item' + (task.done ? ' done' : '');
+      li.dataset.id = task.id;
+      li.innerHTML = `
+        <button class="check-btn" data-id="${task.id}"></button>
+        <span class="task-text">${escapeHTML(task.text)}</span>
+        <button class="del-btn" data-id="${task.id}">✕</button>
+      `;
+      taskList.appendChild(li);
+    });
+
+    const doneCount = tasks.filter(t => t.done).length;
+    document.getElementById('stat-total').textContent = tasks.length;
+    document.getElementById('stat-done').textContent  = doneCount;
+    document.getElementById('stat-left').textContent  = tasks.length - doneCount;
+  }
+
+  function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  function addTask() {
+    const text = taskInput.value.trim();
+    if (!text) return;
+    tasks.unshift({ id: taskIdGenerator.next(), text, done: false });
+    taskInput.value = '';
+    render();
+  }
+
+  document.getElementById('add-btn').addEventListener('click', addTask);
+  taskInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+  taskList.addEventListener('click', e => {
+    const id = Number(e.target.dataset.id);
+    if (!id) return;
+    if (e.target.classList.contains('check-btn')) {
+      const task = tasks.find(t => t.id === id);
+      if (task) task.done = !task.done;
+      render();
+    }
+    if (e.target.classList.contains('del-btn')) {
+      tasks = tasks.filter(t => t.id !== id);
+      render();
+    }
+  });
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      currentFilter = this.dataset.filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      render();
+    });
+  });
+
+  document.getElementById('clear-btn').addEventListener('click', () => {
+    tasks = tasks.filter(t => !t.done);
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
