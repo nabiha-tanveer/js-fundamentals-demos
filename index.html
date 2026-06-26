@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaScript Fundamentals — Nabiha Tanveer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      background: #f0f4ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      color: #1a237e;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: #444;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px 24px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      text-decoration: none;
+      color: #1a237e;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #e0e4f5;
+    }
+
+    .card:hover,
+    .card:focus {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      outline: 2px solid #1a237e;
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.8rem;
+      background: #e8eaf6;
+      color: #1a237e;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    footer {
+      margin-top: 50px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>JavaScript Fundamentals — 3 Demo Projects</h1>
+    <p>Three small interactive demos built with vanilla JavaScript, covering closures, hoisting, DOM events, and promises.</p>
+  </header>
+
+  <main class="grid">
+    <a class="card" href="counter.html">
+      <h2>🔢 Counter App</h2>
+      <p>Increment, decrement, and reset counter using closures and DOM manipulation.</p>
+      <span class="tag">Closures · Events</span>
+    </a>
+
+    <a class="card" href="todo.html">
+      <h2>✅ To-Do App</h2>
+      <p>Task manager with filtering, stats, and event delegation.</p>
+      <span class="tag">Hoisting · Scope</span>
+    </a>
+
+    <a class="card" href="quiz.html">
+      <h2>❓ Quiz App</h2>
+      <p>7-question JS quiz with async loading and a results screen.</p>
+      <span class="tag">Promises · async/await</span>
+    </a>
+  </main>
+
+  <footer>
+    Built by Nabiha Tanveer
+  </footer>
+</body>
+
+</html>
